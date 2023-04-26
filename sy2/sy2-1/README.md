@@ -10,9 +10,9 @@
   
   ③ 实验结果如下图：
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n1.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.1.png" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n1.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.2.png" alt="avatar" style="zoom:50%; width:750px" />
 
 
 ### 2. 探索Android Studio的界面布局
@@ -22,7 +22,7 @@
 
   ② 实验结果如下图：
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n2.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.3.png" alt="avatar" style="zoom:50%; width:750px" />
 
 
 ### 3. 创建模拟器
@@ -39,11 +39,11 @@
   
   ⑤ 实验结果如下图：
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n3.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.4.png" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n3.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.5.png" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n3.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.6.png" alt="avatar" style="zoom:50%; width:750px" />
   
   ### 4.在模拟器上运行应用程序
 
@@ -53,9 +53,9 @@
   
   ② 实验结果如下图：
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n4.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.7.png" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n5.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.8.png" alt="avatar" style="zoom:50%; width:750px" />
   
   ### 5.查看布局编辑器
 
@@ -89,9 +89,9 @@
   ```
   ⑤重新运行应用程序，实验结果如下图：
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n6.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.9.png" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n7.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.10.png" alt="avatar" style="zoom:50%; width:750px" />
 
 ### 6.查看视图的布局约束
 
@@ -101,7 +101,7 @@
 
   ② 实验结果如下图：
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n8.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.11.png" alt="avatar" style="zoom:50%; width:750px" />
 
 ### 7.添加按钮和约束
 
@@ -117,9 +117,9 @@
   ③ 随后添加Button的左侧约束至屏幕的左侧，Button的底部约束至屏幕的底部。查看Attributes面板，修改将id从button修改为toast_button
   
   ④ 实验结果如下图：
-- <img src="https://github.com/17515424731/Android/blob/main/image/n13.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.12.png" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n10.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.13.png" alt="avatar" style="zoom:50%; width:750px" />
 
   ### 8.调整Next按钮
 
@@ -130,7 +130,7 @@
    ② 删除Next按钮的左侧约束
   
    ③ 实验结果如下图：
-- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.14.png" alt="avatar" style="zoom:50%; width:750px" />
 
   ### 9.添加新的约束
 
@@ -139,7 +139,7 @@
    ① 添加Next的右边和底部约束至父类屏幕（如果不存在的话），Next的Top约束至TextView的底部。最后，TextView的底部约束至屏幕的底部
 
    ② 实验结果如下图：
-- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.15.png" alt="avatar" style="zoom:50%; width:750px" />
 
   ### 10.更改组件的文本
 
@@ -159,9 +159,9 @@
    ③ 弹出对话框，令资源名为toast_button_text，资源值为Toast，并点击OK
    
    ④ 实验结果如下图：
-- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.16.png" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.17.png" alt="avatar" style="zoom:50%; width:750px" />
 
   ### 11.更新Next按钮
 
@@ -180,7 +180,7 @@
   
    ③ 实验结果如下图：
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.18.png" alt="avatar" style="zoom:50%; width:750px" />
 
   ### 12.添加第三个按钮
 
@@ -190,7 +190,7 @@
 
    ② 实验结果如下图：
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.19.png" alt="avatar" style="zoom:50%; width:750px" />
 
   ### 13.完善UI组件的属性设置
 
@@ -295,11 +295,11 @@
    
    ⑤ 实验结果如下图：
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.20.png" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.21.png" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.22.png" alt="avatar" style="zoom:50%; width:750px" />
 
   ### 16.设置代码自动补全
 
@@ -309,7 +309,7 @@
 
    ② 实验结果如下图：
    
-- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.23.png" alt="avatar" style="zoom:50%; width:750px" />
 
   ### 17.TOAST按钮添加一个toast消息
 
@@ -472,7 +472,7 @@
 
    ② 实验结果如下图：
    
-- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.23.png" alt="avatar" style="zoom:50%; width:750px" />
 
    ### 24.启用SafeArgs
 
@@ -573,6 +573,6 @@
    
    ⑥运行应用程序，查看运行结果，最终结果如下图所示：
    
-- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.24.png" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.25.png" alt="avatar" style="zoom:50%; width:750px" />
