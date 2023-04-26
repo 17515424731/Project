@@ -119,8 +119,6 @@
   ④ 实验结果如下图：
 - <img src="https://github.com/17515424731/Project/blob/main/image/2.1.12.png" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.13.png" alt="avatar" style="zoom:50%; width:750px" />
-
   ### 8.调整Next按钮
 
 - #### 思路
@@ -130,7 +128,7 @@
    ② 删除Next按钮的左侧约束
   
    ③ 实验结果如下图：
-- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.14.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.13.png" alt="avatar" style="zoom:50%; width:750px" />
 
   ### 9.添加新的约束
 
@@ -139,7 +137,7 @@
    ① 添加Next的右边和底部约束至父类屏幕（如果不存在的话），Next的Top约束至TextView的底部。最后，TextView的底部约束至屏幕的底部
 
    ② 实验结果如下图：
-- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.15.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.14.png" alt="avatar" style="zoom:50%; width:750px" />
 
   ### 10.更改组件的文本
 
@@ -159,9 +157,9 @@
    ③ 弹出对话框，令资源名为toast_button_text，资源值为Toast，并点击OK
    
    ④ 实验结果如下图：
-- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.16.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.15.png" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.17.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.16.png" alt="avatar" style="zoom:50%; width:750px" />
 
   ### 11.更新Next按钮
 
@@ -180,7 +178,7 @@
   
    ③ 实验结果如下图：
 
-- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.18.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.17.png" alt="avatar" style="zoom:50%; width:750px" />
 
   ### 12.添加第三个按钮
 
@@ -190,7 +188,7 @@
 
    ② 实验结果如下图：
 
-- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.19.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.18.png" alt="avatar" style="zoom:50%; width:750px" />
 
   ### 13.完善UI组件的属性设置
 
@@ -295,11 +293,11 @@
    
    ⑤ 实验结果如下图：
 
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.19.png" alt="avatar" style="zoom:50%; width:750px" />
+
 - <img src="https://github.com/17515424731/Project/blob/main/image/2.1.20.png" alt="avatar" style="zoom:50%; width:750px" />
 
 - <img src="https://github.com/17515424731/Project/blob/main/image/2.1.21.png" alt="avatar" style="zoom:50%; width:750px" />
-
-- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.22.png" alt="avatar" style="zoom:50%; width:750px" />
 
   ### 16.设置代码自动补全
 
@@ -309,7 +307,7 @@
 
    ② 实验结果如下图：
    
-- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.23.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.1.22.png" alt="avatar" style="zoom:50%; width:750px" />
 
   ### 17.TOAST按钮添加一个toast消息
 
