@@ -1,928 +1,578 @@
-# NotePad Android期中实验
+# 创建第一个Android Kotlin应用
 
-### 1. NoteList界面中笔记条目增加时间戳显示
+### 1. 创建一个新的工程
 
 - #### 思路
 
-  ①（1）修改NotesList.java中PROJECTION的内容，添加modif字段，使其在后面的搜索中才能从SQLite中读取修改时间的字段。
+  ① 打开Android Studio，选择Projects>New Project，然后选择Basic Activity.
 
-  （2）实验代码：
-
-  ```java
-  private static final String[] PROJECTION = new String[] {
-            NotePad.Notes._ID, // 0
-            NotePad.Notes.COLUMN_NAME_TITLE, // 1
-            //Extended:display time, color
-            NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE, // 2
-    };
-  ```
-  ②（1）修改适配器内容，增加dataColumns中装配到ListView的内容，同时增加一个文本框来存放时间。
+  ② 点击Next，为应用程序命名，选择Kotlin语言，然后点击Finish。Android Studio将使用系统中最新的API Level创建应用程序，并使用Gradle作为构建系统，在底部的视窗中可以查看整个过程。
   
-  （2）实验代码：
-  
-  ```java
-  final String[] dataColumns = { NotePad.Notes.COLUMN_NAME_TITLE , NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE} ;
-  int[] viewIDs = { android.R.id.text1, R.id.text2};
-  ```
-  ③（1）修改layout文件夹中noteslist_item.xml的内容，增加一个textview组件，为他们添加一个布局。
-  
-  （2）实验代码：
+  ③ 实验结果如下图：
 
-  ```xml
-  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="6dip"
-    android:paddingRight="6dip"
-    android:paddingBottom="3dip">
- 
- 
-    <TextView
-        android:id="@android:id/text1"
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/listPreferredItemHeight"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:gravity="center_vertical"
-        android:paddingLeft="5dip"
-        android:singleLine="true"
-        />
-    <TextView
-        android:id="@+id/text2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:gravity="center_vertical"
-        android:singleLine="true"
-        />
-  </LinearLayout>
-
-
-  ```
-  ④（1）修改NoteEditor.java中updateNote方法中的时间类型。
-  
-  （2）实验代码：
-  
-  ```java
-  private final void updateNote(String text, String title) {
- 
-        // Sets up a map to contain values to be updated in the provider.
-        ContentValues values = new ContentValues();
-        Long now = Long.valueOf(System.currentTimeMillis());
-        SimpleDateFormat sf = new SimpleDateFormat("yy/MM/dd HH:mm");
-        Date d = new Date(now);
-        String format = sf.format(d);
-        values.put(NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE, format);
-
-
-  ```
-  ⑤实验结果如下图：
+- <img src="https://github.com/17515424731/Android/blob/main/image/n1.png" alt="avatar" style="zoom:50%; width:750px" />
 
 - <img src="https://github.com/17515424731/Android/blob/main/image/n1.png" alt="avatar" style="zoom:50%; width:750px" />
 
 
-### 2. 添加笔记查询功能
+### 2. 探索Android Studio的界面布局
 - #### 思路
 
-  ①（1）搜索组件在主页面的菜单选项中，在list_options_menu.xml布局文件中添加搜索功能。
+  ① 整个Android Studio工作区包括多个部分
 
-  （2）实验代码：
-
-  ```xml
-      <item
-        android:id="@+id/menu_search"
-        android:icon="@android:drawable/ic_menu_search"
-        android:title="@string/menu_search"
-        android:showAsAction="always" />
-  ```
-  ②（1）新建一个查找笔记内容的布局文件note_search.xml。
-  
-  （2）实验代码：
-  
-  ```xml
-    <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <SearchView
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:iconifiedByDefault="false"
-        />
-    <ListView
-        android:id="@+id/list_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-    </LinearLayout>
-  ```
-  ③（1）在NotesList.java中的onOptionsItemSelected方法中添加search查询的处理。
-  
-  （2）实验代码：
-
-  ```java
-          case R.id.menu_search:
-        //Find function
-        //startActivity(new Intent(Intent.ACTION_SEARCH, getIntent().getData()));
-          Intent intent = new Intent(this, NoteSearch.class);
-          this.startActivity(intent);
-          return true;
-  ```
-  ④（1）新建一个NoteSearch.java用于search功能的功能实现。
-  
-  （2）实验代码：
-  
-  ```java
-  package com.example.android.notepad;
-  import android.app.Activity;
-  import android.content.Intent;
-  import android.database.Cursor;
-  import android.database.sqlite.SQLiteDatabase;
-  import android.os.Bundle;
-  import android.widget.ListView;
-  import android.widget.SearchView;
-  import android.widget.SimpleCursorAdapter;
-  import android.widget.Toast;
- 
-  public class NoteSearch extends Activity implements SearchView.OnQueryTextListener
-  {
-    ListView listView;
-    SQLiteDatabase sqLiteDatabase;
-    /**
-     * The columns needed by the cursor adapter
-     */
-    private static final String[] PROJECTION = new String[]{
-            NotePad.Notes._ID, // 0
-            NotePad.Notes.COLUMN_NAME_TITLE, // 1
-            NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE//时间
-    };
- 
-    public boolean onQueryTextSubmit(String query) {
-        Toast.makeText(this, "you choose:"+query, Toast.LENGTH_SHORT).show();
-        return false;
-    }
- 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.note_search);
-        SearchView searchView = findViewById(R.id.search_view);
-        Intent intent = getIntent();
-        if (intent.getData() == null) {
-            intent.setData(NotePad.Notes.CONTENT_URI);
-        }
-        listView = findViewById(R.id.list_view);
-        sqLiteDatabase = new NotePadProvider.DatabaseHelper(this).getReadableDatabase();
-        //Set the searchview to display the search button
-        searchView.setSubmitButtonEnabled(true);
- 
-        //Set the prompt text displayed by default in this searchview
-        searchView.setQueryHint("search");
-        searchView.setOnQueryTextListener(this);
- 
-    }
-    public boolean onQueryTextChange(String string) {
-        String selection1 = NotePad.Notes.COLUMN_NAME_TITLE+" like ? or "+NotePad.Notes.COLUMN_NAME_NOTE+" like ?";
-        String[] selection2 = {"%"+string+"%","%"+string+"%"};
-        Cursor cursor = sqLiteDatabase.query(
-                NotePad.Notes.TABLE_NAME,
-                PROJECTION, // The columns to return from the query
-                selection1, // The columns for the where clause
-                selection2, // The values for the where clause
-                null,          // don't group the rows
-                null,          // don't filter by row groups
-                NotePad.Notes.DEFAULT_SORT_ORDER // The sort order
-        );
-        // The names of the cursor columns to display in the view, initialized to the title column
-        String[] dataColumns = {
-                NotePad.Notes.COLUMN_NAME_TITLE,
-                NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE
-        } ;
-        // The view IDs that will display the cursor columns, initialized to the TextView in
-        // noteslist_item.xml
-        int[] viewIDs = {
-                android.R.id.text1,
-                android.R.id.text2
-        };
-        // Creates the backing adapter for the ListView.
-        SimpleCursorAdapter adapter
-                = new SimpleCursorAdapter(
-                this,                             // The Context for the ListView
-                R.layout.noteslist_item,         // Points to the XML for a list item
-                cursor,                           // The cursor to get items from
-                dataColumns,
-                viewIDs
-        );
-        // Sets the ListView's adapter to be the cursor adapter that was just created.
-        listView.setAdapter(adapter);
-        return true;
-      }
-  }
-
-
-  ```
-  ⑤（1）在清单文件AndroidManifest.xml里面注册NoteSearch。
-  
-  （2）实验代码：
-  
-  ```xml
-            <activity android:name=".NoteSearch" android:label="@string/search_note" />
-  ```
-  
-   ⑥实验结果如下图：
+  ② 实验结果如下图：
 
 - <img src="https://github.com/17515424731/Android/blob/main/image/n2.png" alt="avatar" style="zoom:50%; width:750px" />
 
 
-### 3.UI美化——更改背景
+### 3. 创建模拟器
 
 - #### 思路
 
-  ①（1）更换主题，在AndroidManifest.xml中NotesList的Activity中添加。
+  ① 此步骤创建可以运行APP的模拟器，点击Tool>Device Manager或者工具栏上的按钮
 
-  （2）实验代码：
+  ② 点击Create device，弹出创建模拟器的页面
   
-  ```xml
-        <activity android:name="NotesList" android:label="@string/title_notes_list"
-                  android:theme="@android:style/Theme.Holo.Light">
-  ```
+  ③ 选择想要创建模拟器设备（如Pixel 5），点击Next，在系统镜像页面的Recommended标签栏，选择最新镜像
   
-  ②（1）在NotePad.java中添加: 
+  ④ 然后首先下载镜像（Download），下载完成之后点击Next，完成模拟器命名和更多参数选择，最终点击Finish完成
   
-  （2）实验代码：
-  
-  ```java
-        public static final String COLUMN_NAME_BACK_COLOR = "color";
-  ```
-  
-  ③（1）数据库表地方添加颜色的字段。
-  
-  （2）实验代码：
-  
-  ```java
-       public void onCreate(SQLiteDatabase db) {
-           db.execSQL("CREATE TABLE " + NotePad.Notes.TABLE_NAME + "   ("
-                   + NotePad.Notes._ID + " INTEGER PRIMARY KEY,"
-                   + NotePad.Notes.COLUMN_NAME_TITLE + " TEXT,"
-                   + NotePad.Notes.COLUMN_NAME_NOTE + " TEXT,"
-                   + NotePad.Notes.COLUMN_NAME_CREATE_DATE + " INTEGER,"
-                   + NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE + " INTEGER,"
-                   + NotePad.Notes.COLUMN_NAME_BACK_COLOR + " INTEGER" //color
-                   + ");");
-       }
-  ```
-  
-  ④（1）在NotePad.java中定义：
-  
-  （2）实验代码：
-  
-  ```java
-        public static final int DEFAULT_COLOR = 0; //white
-        public static final int YELLOW_COLOR = 1; //yellow
-        public static final int BLUE_COLOR = 2; //blue
-        public static final int GREEN_COLOR = 3; //green
-        public static final int RED_COLOR = 4; //red
-  ```
-  
-  ⑤（1）在NotePadProvider.java中添加对其相应的处理，
-  
-  （2）实验代码：
-  
-  ```java
-                sNotesProjectionMap.put(
-                NotePad.Notes.COLUMN_NAME_BACK_COLOR,
-                NotePad.Notes.COLUMN_NAME_BACK_COLOR);
-                
-        if (values.containsKey(NotePad.Notes.COLUMN_NAME_BACK_COLOR) == false) {
-            values.put(NotePad.Notes.COLUMN_NAME_BACK_COLOR, NotePad.Notes.DEFAULT_COLOR);
-        }
-  ```
-  
-  ⑥（1）自定义一个MyCursorAdapter.java继承SimpleCursorAdapter.
-  
-  （2）实验代码：
-  
-  ```java
-  package com.example.android.notepad;
- 
-  import android.content.Context;
-  import android.database.Cursor;
-  import android.graphics.Color;
-  import android.view.View;
-  import android.widget.SimpleCursorAdapter;
- 
-  public class MyCursorAdapter extends SimpleCursorAdapter {
-    public MyCursorAdapter(Context context, int layout, Cursor c,
-                           String[] from, int[] to) {
-        super(context, layout, c, from, to);
-    }
-    @Override
-    public void bindView(View view, Context context, Cursor cursor){
-        super.bindView(view, context, cursor);
-        //Get the color data corresponding to the note list from the cursor read from the database, and set the note color
-        int x = cursor.getInt(cursor.getColumnIndex(NotePad.Notes.COLUMN_NAME_BACK_COLOR));
-        /**
-         * white 255 255 255
-         * yellow 247 216 133
-         * blue 165 202 237
-         * green 161 214 174
-         * red 244 149 133
-         */
-        switch (x){
-            case NotePad.Notes.DEFAULT_COLOR:
-                view.setBackgroundColor(Color.rgb(255, 255, 255));
-                break;
-            case NotePad.Notes.YELLOW_COLOR:
-                view.setBackgroundColor(Color.rgb(247, 216, 133));
-                break;
-            case NotePad.Notes.BLUE_COLOR:
-                view.setBackgroundColor(Color.rgb(165, 202, 237));
-                break;
-            case NotePad.Notes.GREEN_COLOR:
-                view.setBackgroundColor(Color.rgb(161, 214, 174));
-                break;
-            case NotePad.Notes.RED_COLOR:
-                view.setBackgroundColor(Color.rgb(244, 149, 133));
-                break;
-            default:
-                view.setBackgroundColor(Color.rgb(255, 255, 255));
-                break;
-        }
-    }
-  }
-  ```
-  
-  ⑦（1）在NotesList.java中的PROJECTION添加颜色项。
-  
-  （2）实验代码：
-  
-  ```java
-    private static final String[] PROJECTION = new String[] {
-            NotePad.Notes._ID, // 0
-            NotePad.Notes.COLUMN_NAME_TITLE, // 1
-            //Extended:display time, color
-            NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE, // 2
-            NotePad.Notes.COLUMN_NAME_BACK_COLOR
-    };
-  ```
-  
-  ⑧（1）将NotesList.java中用的SimpleCursorAdapter改为使用MyCursorAdapter：
-  
-  （2）实验代码：
-  
-  ```java
-       MyCursorAdapter adapter = new MyCursorAdapter(
-                this,
-                R.layout.noteslist_item,
-                cursor,
-                dataColumns,
-                viewIDs
-        );
-  ```
-  
-  ⑨实验结果如下图：
+  ⑤ 实验结果如下图：
+
+- <img src="https://github.com/17515424731/Android/blob/main/image/n3.png" alt="avatar" style="zoom:50%; width:750px" />
+
+- <img src="https://github.com/17515424731/Android/blob/main/image/n3.png" alt="avatar" style="zoom:50%; width:750px" />
 
 - <img src="https://github.com/17515424731/Android/blob/main/image/n3.png" alt="avatar" style="zoom:50%; width:750px" />
   
-  ### 5.UI美化-更改每条笔记背景
+  ### 4.在模拟器上运行应用程序
 
 - #### 思路
 
-  ①（1）在editor_options_menu.xml中添加一个更改背景的功能选项。
-
-  （2）实验代码：
+  ① 选择Run>Run ‘app’，在工具栏上可以看到运行程序的一些选择项
   
-   ```xml
-    <item android:id="@+id/menu_color"
-        android:title="@string/menu_color"
-        android:icon="@drawable/ic_menu_edit"
-        android:showAsAction="always"/>
-  ```
-  
-  ②（1）在NoteEditor.java中找到onOptionsItemSelected方法，在菜单的switch中添加： 
-
-  （2）实验代码：
-  
-   ```java
-        case R.id.menu_color:
-            changeColor();
-            break;
-  ```
-  
-  ③（1）在NoteEditor.java中添加函数changeColor：
-
-  （2）实验代码：
-  
-   ```java
-    private final void changeColor() {
-        Intent intent = new Intent(null,mUri);
-        intent.setClass(NoteEditor.this,NoteColor.class);
-        NoteEditor.this.startActivity(intent);
-    }
-  ```
-  
-  ④（1）新建布局note_color.xml，垂直线性布局放置5个ImageButton，对选择颜色界面进行布局。
-
-  （2）实验代码：
-  
-   ```xml
-    <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ImageButton
-        android:id="@+id/color_white"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_weight="1"
-        android:background="@color/colorWhite"
-        android:onClick="white"/>
-    <ImageButton
-        android:id="@+id/color_yellow"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_weight="1"
-        android:background="@color/colorYellow"
-        android:onClick="yellow"/>
-    <ImageButton
-        android:id="@+id/color_blue"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_weight="1"
-        android:background="@color/colorBlue"
-        android:onClick="blue"/>
-    <ImageButton
-        android:id="@+id/color_green"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_weight="1"
-        android:background="@color/colorGreen"
-        android:onClick="green"/>
-    <ImageButton
-        android:id="@+id/color_red"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_weight="1"
-        android:background="@color/colorRed"
-        android:onClick="red"/>
-   </LinearLayout>
-  ```
-  
-  ⑤(1）新建资源文件color.xml,添加所需颜色。
-
-  （2）实验代码：
-  
-   ```xml
-    <?xml version="1.0" encoding="utf-8"?>
-   <resources>
- 
-    <color name="colorWhite">#fff</color>
-    <color name="colorYellow">#FFD885</color>
-    <color name="colorBlue">#A5CAED</color>
-    <color name="colorGreen">#A1D6AE</color>
-    <color name="colorRed">#F49585</color>
- 
-   </resources>
-  ```
-  
-  ⑥(1）创建NoteColor.java，用来选择颜色。
-
-  （2）实验代码：
-  
-   ```java
-    package com.example.android.notepad;
- 
-   import android.app.Activity;
-   import android.content.ContentValues;
-   import android.database.Cursor;
-   import android.net.Uri;
-   import android.os.Bundle;
-   import android.view.View;
- 
-   public class NoteColor extends Activity {
-    private Cursor mCursor;
-    private Uri mUri;
-    private int color;
-    private static final int COLUMN_INDEX_TITLE = 1;
-    private static final String[] PROJECTION = new String[] {
-            NotePad.Notes._ID, // 0
-            NotePad.Notes.COLUMN_NAME_BACK_COLOR,
-    };
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.note_color);
-        //Uri passed in from noteeditor
-        mUri = getIntent().getData();
-        mCursor = managedQuery(
-                mUri,        // The URI for the note that is to be retrieved.
-                PROJECTION,  // The columns to retrieve
-                null,        // No selection criteria are used, so no where columns are needed.
-                null,        // No where columns are used, so no where values are needed.
-                null         // No sort order is needed.
-        );
-    }
-    @Override
-    protected void onResume(){
-        //The execution order is after oncreate
-        if (mCursor != null) {
-            mCursor.moveToFirst();
-            color = mCursor.getInt(COLUMN_INDEX_TITLE);
-        }
-        super.onResume();
-    }
-    @Override
-    protected void onPause() {
-        //After finish(), the selected color is stored in the database
-        super.onPause();
-        ContentValues values = new ContentValues();
-        values.put(NotePad.Notes.COLUMN_NAME_BACK_COLOR, color);
-        getContentResolver().update(mUri, values, null, null);
-    }
-    public void white(View view){
-        color = NotePad.Notes.DEFAULT_COLOR;
-        finish();
-    }
-    public void yellow(View view){
-        color = NotePad.Notes.YELLOW_COLOR;
-        finish();
-    }
-    public void blue(View view){
-        color = NotePad.Notes.BLUE_COLOR;
-        finish();
-    }
-    public void green(View view){
-        color = NotePad.Notes.GREEN_COLOR;
-        finish();
-    }
-    public void red(View view){
-        color = NotePad.Notes.RED_COLOR;
-        finish();
-    }
- 
-  }
-  ```
-  
-  ⑦（1）在清单文件AndroidManifest.xml里面注册NoteColor
-
-  （2）实验代码：
-  
-   ```java
-        <activity android:name="NoteColor"
-            android:theme="@android:style/Theme.Holo.Light.Dialog"
-            android:label="ChangeColor"
-            android:windowSoftInputMode="stateVisible"/>
-  ```
-  
-  ⑧实验结果如下图：
+  ② 实验结果如下图：
 
 - <img src="https://github.com/17515424731/Android/blob/main/image/n4.png" alt="avatar" style="zoom:50%; width:750px" />
 
 - <img src="https://github.com/17515424731/Android/blob/main/image/n5.png" alt="avatar" style="zoom:50%; width:750px" />
   
-### 6.更改字体颜色、大小
+  ### 5.查看布局编辑器
 
 - #### 思路
-  ①（1）NoteEditor中添加如下代码:
 
-  （2）实验代码：
+  ①在Basic Activity中，包含了基本的导航组件，Android app关联两个fragments，第一个屏幕显示了“Hello first fragment”由FirstFragment创建，界面元素的排列由布局文件指定，查看res>layout>fragment_first.xml
 
-  ```java
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle all of the possible menu actions.
-    switch (item.getItemId()) {
-        case R.id.menu_save:
-            String text = mText.getText().toString();
-            updateNote(text, null);
-            finish();
-            break;
-        case R.id.menu_delete:
-            deleteNote();
-            finish();
-            break;
-        case R.id.menu_revert:
-            cancelNote();
-            break;
-        case R.id.red_font:
-            mText.setTextColor(Color.RED);
-            break;
-        case R.id.black_font:
-            mText.setTextColor(Color.BLACK);
-        case R.id.font_10:
-            mText.setTextSize(20);
-            break;
-        case R.id.font_16:
-            mText.setTextSize(32);
-            break;
-        case R.id.font_20:
-            mText.setTextSize(40);
-            break;
-    }
-    return super.onOptionsItemSelected(item);
-  }
-  ```
-  ②（1）editor_options_menu.xml中添加如下代码：
+  ②（1）查看布局的代码（Code），修改Textview的Text属性
   
   （2）实验代码：
   
   ```xml
-  <item android:title="字体大小">
-    <menu>
-        <group>
-            <item android:id="@+id/font_10"
-                android:title="小"/>
-            <item android:id="@+id/font_16"
-                android:title="中"/>
-            <item android:id="@+id/font_20"
-                android:title="大"/>
-        </group>
-    </menu>
-  </item>
+  android:text="@string/hello_first_fragment"
   ```
-  ③（1）NoteEditor中添加如下代码:
+  ③（1）右键该代码，选择Go To > Declaration or Usages，跳转到values/strings.xml，看到高亮文本
   
   （2）实验代码：
   ```java
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle all of the possible menu actions.
-    switch (item.getItemId()) {
-        case R.id.menu_save:
-            String text = mText.getText().toString();
-            updateNote(text, null);
-            finish();
-            break;
-        case R.id.menu_delete:
-            deleteNote();
-            finish();
-            break;
-        case R.id.menu_revert:
-            cancelNote();
-            break;
-        case R.id.red_font:
-            mText.setTextColor(Color.RED);
-            break;
-        case R.id.black_font:
-            mText.setTextColor(Color.BLACK);
-        case R.id.font_10:
-            mText.setTextSize(20);
-            break;
-        case R.id.font_16:
-            mText.setTextSize(32);
-            break;
-        case R.id.font_20:
-            mText.setTextSize(40);
-            break;
-    }
-    return super.onOptionsItemSelected(item);
-  }
+  <string name="hello_first_fragment">Hello first fragment</string>
   ```
-  ④（1）editor_options_menu.xml中添加如下代码:
+  ④ 修改字符串属性值为“Hello Kotlin!”。更进一步，修改字体显示属性，在Design视图中选择textview_first文本组件，在Common Attributes属性下的textAppearance域，设置相关的文字显示属性
   
-  （2）实验代码：
+  ⑤查看布局的XML代码，可以看到新属性被应用
+ 
   ```xml
-  <item
-    android:title="字体颜色">
-    <menu>
-        <group>
-            <item android:id="@+id/red_font"
-                android:title="红色"/>
-            <item android:id="@+id/black_font"
-                android:title="黑色"/>
-        </group>
-    </menu>
-  </item>
+  android:fontFamily="sans-serif-condensed"
+  android:text="@string/hello_first_fragment"
+  android:textColor="@android:color/darker_gray"
+  android:textSize="30sp"
+  android:textStyle="bold"
   ```
-  ⑤实验结果如下图：
+  ⑤重新运行应用程序，实验结果如下图：
 
 - <img src="https://github.com/17515424731/Android/blob/main/image/n6.png" alt="avatar" style="zoom:50%; width:750px" />
 
 - <img src="https://github.com/17515424731/Android/blob/main/image/n7.png" alt="avatar" style="zoom:50%; width:750px" />
 
-### 7.添加文件导出功能
+### 6.查看视图的布局约束
 
 - #### 思路
 
-  ①（1）在AndroidManifest.xml中加入权限，定义样式：
+  ① 在fragment_first.xml，查看TextView组件的约束属性
 
-  （2）实验代码：
-
-  ```xml
-  <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-  <!-- 向SD卡写入数据权限 -->
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-  <activity android:name="OutputText"
-    android:label="@string/output_name"
-    android:theme="@android:style/Theme.Holo.Dialog"
-    android:windowSoftInputMode="stateVisible">
-  </activity>
-  ```
-  ②（1）editor_options_menu.xml中添加一个选项。
-  
-  （2）实验代码：
-  
-  ```xml
-  <item android:id="@+id/menu_output"
-    android:title="@string/menu_output" />
-  ```
-  ③（1）NoteEditor中添加一个新的函数
-  
-  （2）实验代码：
-
-  ```java
-  private final void outputNote() {
-    Intent intent = new Intent(null,mUri);
-    intent.setClass(NoteEditor.this,OutputText.class);
-    NoteEditor.this.startActivity(intent);
-  }
-
-
-  ```
-  ④（1）output_text.xml是新建的导出文件界面的布局
-  
-  （2）实验代码：
-  
-  ```xml
-  <?xml version="1.0" encoding="utf-8"?>
-  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingLeft="6dip"
-    android:paddingRight="6dip"
-    android:paddingBottom="3dip">
-    <EditText android:id="@+id/output_name"
-        android:maxLines="1"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="15dp"
-        android:layout_width="wrap_content"
-        android:ems="25"
-        android:layout_height="wrap_content"
-        android:autoText="true"
-        android:capitalize="sentences"
-        android:scrollHorizontally="true" />
-    <Button android:id="@+id/output_ok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="@string/output_ok"
-        android:onClick="OutputOk" />
-  </LinearLayout>
-  ```
-  ⑤(1)并新建OutputText.java，关键代码如下：
-  
-  （2）实验代码：
-  
-  ```java
-  private void write()
-    {
-        try
-        {
-
-            if (Environment.getExternalStorageState().equals(
-                    Environment.MEDIA_MOUNTED)) {
-            
-                File sdCardDir = Environment.getExternalStorageDirectory();             
-                File targetFile = new File(sdCardDir.getCanonicalPath() + "/" + mName.getText() + ".txt");              
-                PrintWriter ps = new PrintWriter(new OutputStreamWriter(new FileOutputStream(targetFile), "UTF-8"));
-                ps.println(TITLE);
-                ps.println(NOTE);
-                ps.println("创建时间：" + CREATE_DATE);
-                ps.println("最后一次修改时间：" + MODIFICATION_DATE);
-                ps.close();
-                Toast.makeText(this, "保存成功,保存位置：" + sdCardDir.getCanonicalPath() + "/" + mName.getText() + ".txt", Toast.LENGTH_LONG).show();
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-  }
-  ```
-
-
-⑥实验结果如下图：
+  ② 实验结果如下图：
 
 - <img src="https://github.com/17515424731/Android/blob/main/image/n8.png" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n9.png" alt="avatar" style="zoom:50%; width:750px" />
-
-### 8.添加排序功能
+### 7.添加按钮和约束
 
 - #### 思路
 
-  ①（1）list_options_menu.xml中添加:
-
-  （2）实验代码：
-
+  ① 从Palette面板中拖动Button到
+  
+  ② 调整Button的约束，设置Button的Top>BottonOf textView
   ```xml
-  <item
-    android:id="@+id/menu_sort"
-    android:title="@string/menu_sort"
-    android:icon="@android:drawable/ic_menu_sort_by_size"
-    app:showAsAction="always" >
-    <menu>
-        <item
-            android:id="@+id/menu_sort1"
-            android:title="@string/menu_sort1"/>
-        <item
-            android:id="@+id/menu_sort2"
-            android:title="@string/menu_sort2"/>
-
-    </menu>
-  </item>
+      app:layout_constraintTop_toBottomOf="@+id/textview_first" />
   ```
-  ②（1）NoteList中增加两个选项
   
-  （2）实验代码：
+  ③ 随后添加Button的左侧约束至屏幕的左侧，Button的底部约束至屏幕的底部。查看Attributes面板，修改将id从button修改为toast_button
   
-  ```java
-  case R.id.menu_sort1:
-        cursor = managedQuery(
-                getIntent().getData(),            
-                PROJECTION,                      
-                null,                          
-                null,                          
-                NotePad.Notes._ID 
-                );
-        adapter = new MyCursorAdapter(
-                this,
-                R.layout.noteslist_item,
-                cursor,
-                dataColumns,
-                viewIDs
-        );
-        setListAdapter(adapter);
-        return true;
-
-    case R.id.menu_sort2:
-        cursor = managedQuery(
-                getIntent().getData(),          
-                PROJECTION,                      
-                null,                            
-                null,                       
-                NotePad.Notes.DEFAULT_SORT_ORDER 
-        );
-        adapter = new MyCursorAdapter(
-                this,
-                R.layout.noteslist_item,
-                cursor,
-                dataColumns,
-                viewIDs
-        );
-        setListAdapter(adapter);
-  ```
-  ③实验结果如下图：
+  ④ 实验结果如下图：
 - <img src="https://github.com/17515424731/Android/blob/main/image/n13.png" alt="avatar" style="zoom:50%; width:750px" />
 
 - <img src="https://github.com/17515424731/Android/blob/main/image/n10.png" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n11.png" alt="avatar" style="zoom:50%; width:750px" />
-
-- <img src="https://github.com/17515424731/Android/blob/main/image/n12.png" alt="avatar" style="zoom:50%; width:750px" />
-
-  ### 9.添加分享功能
+  ### 8.调整Next按钮
 
 - #### 思路
 
-   ①（1）在editor_options_menu.xml中添加：
+   ① Next按钮是工程创建时默认的按钮，查看Next按钮的布局设计视图，它与TextView之间的连接不是锯齿状的而是波浪状的，表明两者之间存在链（chain），是一种两个组件之间的双向联系而不是单向联系。删除两者之间的链，可以在设计视图右键相应约束，选择Delete（注意两个组件要双向删除）
 
-  （2）实验代码：
-
-  ```xml
-      <item android:id="@+id/menu_share"
-        android:title="share"
-        android:showAsAction="ifRoom|withText"/>
-  ```
+   ② 删除Next按钮的左侧约束
   
-   ②（1）在NoteEditor中onOptionsItemSelected添加：
-
-  （2）实验代码：
-
-  ```java
-      case R.id.menu_share:
-            sendTo(this,mText.getText().toString());
-            break;
-  ```
-  
-  ③（1）在NoteEditor中添加sendTo函数
-  
-  （2）实验代码：
-
-  ```java
-      private void sendTo(Context context, String info) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_TEXT, info);
-        intent.setType("text/plain");
-        context.startActivity(intent);
-    }
-  ```
-  
-  ④实验结果如下图：
+   ③ 实验结果如下图：
 - <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n15.png" alt="avatar" style="zoom:50%; width:750px" />
+  ### 9.添加新的约束
 
+- #### 思路
+
+   ① 添加Next的右边和底部约束至父类屏幕（如果不存在的话），Next的Top约束至TextView的底部。最后，TextView的底部约束至屏幕的底部
+
+   ② 实验结果如下图：
+- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+
+  ### 10.更改组件的文本
+
+- #### 思路
+
+   ① fragment_first.xml布局文件代码中，找到toast_button按钮的text属性部分
+   ```xml
+   <Button
+     android:id="@+id/toast_button"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:text="Button"
+  ```
+
+   ② 这里text的赋值是一种硬编码，点击文本，左侧出现灯泡状的提示，选择 Extract string resource
+  
+   ③ 弹出对话框，令资源名为toast_button_text，资源值为Toast，并点击OK
+   
+   ④ 实验结果如下图：
+- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+
+- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+
+  ### 11.更新Next按钮
+
+- #### 思路
+
+   ① 在属性面板中更改Next按钮的id，从button_first改为random_button
+   ```xml
+   <Button
+     android:id="@+id/toast_button"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:text="Button"
+  ```
+
+   ② 在string.xml文件，右键next字符串资源，选择 Refactor > Rename，修改资源名称为random_button_text，点击Refactor 。随后，修改Next值为Random
+  
+   ③ 实验结果如下图：
+
+- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+
+  ### 12.添加第三个按钮
+
+- #### 思路
+
+   ① 向fragment_first.xml文件中添加第三个按钮，位于Toast和Random按钮之间，TextView的下方。新Button的左右约束分别约束至Toast和Random，Top约束至TextView的底部，Buttom约束至屏幕的底部
+
+   ② 实验结果如下图：
+
+- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+
+  ### 13.完善UI组件的属性设置
+
+- #### 思路
+
+   ① 更改新增按钮id为count_button，显示字符串为Count，对应字符串资源值为count_button_text
+
+   ② 同时，更改TextView的文本为0。修改后的fragment_first.xml的代码
+  ```xml
+   <?xml version="1.0" encoding="utf-8"?>
+   <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FirstFragment">
+
+    <TextView
+        android:id="@+id/textview_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:text="@string/hello_first_fragment"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/random_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/random_button_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_first" />
+
+    <Button
+        android:id="@+id/toast_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/toast_button_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_first" />
+
+    <Button
+        android:id="@+id/count_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/count_button_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/random_button"
+        app:layout_constraintStart_toEndOf="@+id/toast_button"
+        app:layout_constraintTop_toBottomOf="@+id/textview_first" />
+   </androidx.constraintlayout.widget.ConstraintLayout>
+
+  ```
+   
+   ### 14.更新按钮和文本框的外观
+
+- #### 思路
+
+   ① 添加新的颜色资源：values>colors.xml定义了一些应用程序可以使用的颜色，添加新颜色screenBackground 值为 #2196F3，这是蓝色阴影色；添加新颜色buttonBackground 值为 #BBDEFB
+   
+   ```xml
+   <color name="screenBackground">#2196F3</color>
+   <color name="buttonBackground">#BBDEFB</color>
+   ```
+  
+   ② 设置组件的外观：fragment_first.xml的属性面板中设置屏幕背景色为
+   
+   ```xml
+   android:background="@color/screenBackground"
+   ```
+   
+   设置每个按钮的背景色为buttonBackground
+  
+   ```xml
+   android:background="@color/buttonBackground"
+   ```
+   
+   移除TextView的背景颜色，设置TextView的文本颜色为color/white，并增大字体大小至72sp
+   
+   ### 15.设置组件的位置
+
+- #### 思路
+
+   ① Toast与屏幕的左边距设置为24dp，Random与屏幕的右边距设置为24dp，利用属性面板的Constraint Widget完成设置
+
+   ② 设置TextView的垂直偏移为0.3
+   ```xml
+   app:layout_constraintVertical_bias="0.3"
+   ```
+  
+   ③ 拖动左侧的移动条。
+   
+   ④ 运行程序。
+   
+   ⑤ 实验结果如下图：
+
+- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+
+- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+
+- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+
+  ### 16.设置代码自动补全
+
+- #### 思路
+
+   ① Android Studio中，依次点击File>New Projects Settings>Settings for New Projects…，查找Auto Import选项，在Java和Kotlin部分，勾选Add Unambiguous Imports on the fly
+
+   ② 实验结果如下图：
+   
+- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+
+  ### 17.TOAST按钮添加一个toast消息
+
+- #### 思路
+
+   ① 打开FirstFragment.kt文件，有三个方法：onCreateView，onViewCreated和onDestroyView，在onViewCreated方法中使用绑定机制设置按钮的响应事件（创建应用程序时自带的按钮）
+   ```java
+   binding.randomButton.setOnClickListener {
+    findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+   }
+   ```
+
+   ② 接下来，为TOAST按钮添加事件，使用findViewById()查找按钮id，代码如下
+   ```java
+   // find the toast_button by its ID and set a click listener
+   view.findViewById<Button>(R.id.toast_button).setOnClickListener {
+     // create a Toast with some text, to appear for a short time
+     val myToast = Toast.makeText(context, "Hello Toast!", Toast.LENGTH_LONG)
+     // show the Toast
+     myToast.show()
+   } 
+
+   ```
+   
+   ### 18.使Count按钮更新屏幕的数字
+
+- #### 思路
+
+   ① 在FirstFragment.kt文件，为count_buttion按钮添加事件
+   ```java
+   view.findViewById<Button>(R.id.count_button).setOnClickListener {
+     countMe(view)
+   }
+   ```
+
+   ② countMe()为自定义方法，以View为参数，每次点击增加数字1，具体代码为
+   ```java
+   private fun countMe(view: View) {
+     // Get the text view
+     val showCountTextView = view.findViewById<TextView>(R.id.textview_first)
+
+     // Get the value of the text view.
+     val countString = showCountTextView.text.toString()
+
+     // Convert value to a number and increment it
+     var count = countString.toInt()
+     count++
+
+     // Display the new value in the text view.
+     showCountTextView.text = count.toString()
+   }
+   ```
+   
+   ### 19.完成第二界面的代码
+
+- #### 思路
+
+   ① 此步骤将完成按照First Fragment显示数字作为上限，随机在Second Fragment上显示一个数字，即Random按钮的事件响应
+
+   ### 20.向界面添加TextView显示随机数
+
+- #### 思路
+
+   ① 打开fragment_second.xml的设计视图中，当前界面有两个组件，一个Button和一个TextView（textview_second）
+
+   ② 去掉TextView和Button之间的约束
+   
+   ③ 拖动新的TextView至屏幕的中间位置，用来显示随机数
+   
+   ④ 设置新的TextView的id为**@+id/textview_random**
+   
+   ⑤ 设置新的TextView的左右约束至屏幕的左右侧，Top约束至textview_second的Bottom，Bottom约束至Button的Top
+   
+   ⑥ 设置TextView的字体颜色textColor属性为**@android:color/white**，textSize为72sp，textStyle为bold
+   
+   ⑦ 设置TextView的显示文字为“R”
+   
+   ⑧ 设置垂直偏移量layout_constraintVertical_bias为0.45
+   
+   ⑨新增TextView最终的属性代码
+   ```xml
+   <TextView
+   android:id="@+id/textview_random"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:text="R"
+   android:textColor="@android:color/white"
+   android:textSize="72sp"
+   android:textStyle="bold"
+   app:layout_constraintBottom_toTopOf="@+id/button_second"
+   app:layout_constraintEnd_toEndOf="parent"
+   app:layout_constraintStart_toStartOf="parent"
+   app:layout_constraintTop_toBottomOf="@+id/textview_second"
+   app:layout_constraintVertical_bias="0.45" />
+   }
+   ```
+   
+   ### 21.更新显示界面文本的TextView(textview_second)
+
+- #### 思路
+
+   ① 在fragment_second.xml文件中，选择textview_second文本框，查看text属性，可见
+   ```xml
+   android:text="@string/hello_second_fragment
+   ```
+   对应的strings.xml文本为Hello second fragment. Arg: %1$s
+
+   ② 更改该文本框id为textview_header
+   
+   ③ 设置layout_width为match_parent，layout_height为wrap_content
+   
+   ④ 设置top，left和right的margin为24dp，左边距和右边距也就是start和end边距
+   
+   ⑤ 若还存在与Button的约束，则删除
+   
+   ⑥ 向colors.xml添加颜色colorPrimaryDark，并将TextView颜色设置为@color/colorPrimaryDark，字体大小为24sp
+   ```xml
+   <color name="colorPrimaryDark">#3700B3</color>
+   ```
+   
+   ⑦ strings.xml文件中，修改hello_second_fragment的值为"Here is a random number between 0 and %d."
+   
+   ⑧ 使用Refactor>Rename将hello_second_fragment 重构为random_heading
+   
+   ⑨ 因此，显示界面信息的Textview的代码为
+   ```xml
+   <TextView
+   android:id="@+id/textview_header"
+   android:layout_width="0dp"
+   android:layout_height="wrap_content"
+   android:layout_marginStart="24dp"
+   android:layout_marginLeft="24dp"
+   android:layout_marginTop="24dp"
+   android:layout_marginEnd="24dp"
+   android:layout_marginRight="24dp"
+   android:text="@string/random_heading"
+   android:textColor="@color/colorPrimaryDark"
+   android:textSize="24sp"
+   app:layout_constraintEnd_toEndOf="parent"
+   app:layout_constraintStart_toStartOf="parent"
+   app:layout_constraintTop_toTopOf="parent" />
+   ```
+   
+   ### 22.TOAST按钮添加一个toast消息
+
+- #### 思路
+
+   ① 向colors.xml文件添加第二个Fragment背景色的值，修改fragment_second.xml背景色的属性为screenBackground2
+   ```xml
+   <color name="screenBackground2">#26C6DA</color>
+   ```
+
+   ② 将按钮移动至界面的底部
+   
+   ### 23.检查导航图
+
+- #### 思路
+
+   ① 本项目选择Android的Basic Activity类型进行创建，默认情况下自带两个Fragments，并使用Android的导航机制Navigation。导航将使用按钮在两个Fragment之间进行跳转，就第一个Fragment修改后的Random按钮和第二个Fragment的Previous按钮，打开nav_graph.xml文件（res>navigation>nav_graph.xml），可以任意拖动界面中的元素，观察导航图的变化。
+
+   ② 实验结果如下图：
+   
+- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+
+   ### 24.启用SafeArgs
+
+- #### 思路
+
+   ① 首先打开 Gradle Scripts > build.gradle (Project: My First App)
+ 
+   ② 找到buildscript脚本中的dependencies章节，添加如下代码
+   ```
+   def nav_version = "2.3.0-alpha02"
+   classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+   ```
+   
+   ③ 接着打开 Gradle Scripts > build.gradle (Module: app)
+   
+   ④ apply plugin开头的代码下添加一行
+   ```
+   apply plugin: 'androidx.navigation.safeargs.kotlin'
+   ```
+   ⑤ Android Studio开始同步依赖库
+   
+   ⑥ 重新生成工程Build > Make Project
+ 
+   ### 25.创建导航动作的参数
+
+- #### 思路
+
+   ① 打开导航视图，点击FirstFragment，查看其属性
+ 
+   ② 在Actions栏中可以看到导航至SecondFragment
+   
+   ③ 同理，查看SecondFragment的属性栏
+   
+   ④ 点击Arguments +符号
+   
+   ⑤ 弹出的对话框中，添加参数myArg，类型为整型Integer
+  
+   ### 26.FirstFragment添加代码，向SecondFragment发数据
+
+- #### 思路
+
+   ① 打开FirstFragment.kt源代码文件
+ 
+   ② 找到onViewCreated()方法，该方法在onCreateView方法之后被调用，可以实现组件的初始化。找到Random按钮的响应代码，注释掉原先的事件处理代码
+   
+   ③ 实例化TextView，获取TextView中文本并转换为整数值
+   ```
+   val showCountTextView = view.findViewById<TextView>(R.id.textview_first)
+   val currentCount = showCountTextView.text.toString().toInt()
+   ```
+   
+   ④ 将currentCount作为参数传递给actionFirstFragmentToSecondFragment()
+   ```
+   val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(currentCount)
+   ```
+   
+   ⑤ 添加导航事件代码
+   ```
+   findNavController().navigate(action)
+   ```
+   
+   ⑥运行代码，点击FirstFragment的Count按钮，然后点击Random按钮，可以看到SecondFragment在头部的TextView已经显示正确的数字，但是屏幕中间还未出现随机数显示
+   
+   ### 27.添加SecondFragment的代码
+
+- #### 思路
+
+   ① 导入navArgs包
+   ```
+   import androidx.navigation.fragment.navArgs
+   ```
+ 
+   ② onViewCreated()代码之前添加一行
+   ```
+   val args: SecondFragmentArgs by navArgs()
+   ```
+   
+   ③ onViewCreated()中获取传递过来的参数列表，提取count数值，并在textview_header中显示
+   ```
+   val count = args.myArg
+   val countText = getString(R.string.random_heading, count)
+   view.findViewById<TextView>(R.id.textview_header).text = countText
+   ```
+   
+   ④ 根据count值生成随机数
+   ```
+   val random = java.util.Random()
+   var randomNumber = 0
+   if (count > 0) {
+      randomNumber = random.nextInt(count + 1)
+   }
+   ```
+   
+   ⑤ textview_random中显示count值
+   ```
+   view.findViewById<TextView>(R.id.textview_random).text = randomNumber.toString()
+   ```
+   
+   ⑥运行应用程序，查看运行结果，最终结果如下图所示：
+   
+- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+
+- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
