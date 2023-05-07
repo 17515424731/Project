@@ -10,9 +10,9 @@
   
   ③ 实验结果如下图：
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n1.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.2.1.png" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n1.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.2.2.png" alt="avatar" style="zoom:50%; width:750px" />
 
 
 ### 2. 添加 Gradle 依赖
@@ -125,7 +125,7 @@ compileOptions {
   
   ③ 实验结果如下图：
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n3.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.2.3.png" alt="avatar" style="zoom:50%; width:750px" />
   
   ### 4.编写 MainActivity.kt 代码
 
@@ -279,7 +279,7 @@ override fun onRequestPermissionsResult(
 
   ③运行应用，可发现应用程序请求使用摄像头和麦克风.实验结果如下图：
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n6.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.2.4.png" alt="avatar" style="zoom:50%; width:750px" />
 
 
 ### 6.实现 Preview 用例
@@ -324,7 +324,7 @@ override fun onRequestPermissionsResult(
 
 ②实验结果如下图：
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n8.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.2.5.png" alt="avatar" style="zoom:50%; width:750px" />
 
 ### 7.实现 ImageCapture 用例（拍照功能)
 
@@ -370,9 +370,9 @@ private fun startCamera() {
 ```
  
   ②重新运行应用，然后按 Take Photo。屏幕上应该会显示一个消息框，会在日志中看到一条消息。这时可以查看本地的图片库，查看刚刚拍摄的图片。实验结果如下图：
-- <img src="https://github.com/17515424731/Android/blob/main/image/n13.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.2.6.png" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n10.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.2.7.png" alt="avatar" style="zoom:50%; width:750px" />
 
   ### 8.实现 ImageAnalysis 用例
 
@@ -428,7 +428,7 @@ cameraProvider.bindToLifecycle(
 ```
   
   ④立即运行应用！它会大约每秒在 logcat 中生成一个类似于下面的消息。实验结果如下图：
-- <img src="https://github.com/17515424731/Android/blob/main/image/n14.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.2.8.png" alt="avatar" style="zoom:50%; width:750px" />
 
   ### 9.实现 VideoCapture 用例（拍摄视频）
 
@@ -520,6 +520,6 @@ videoCapture = VideoCapture.withOutput(recorder)
 cameraProvider.bindToLifecycle(this, cameraSelector, preview, videoCapture)
 ```
   ④构建并运行项目,录制一些剪辑,视频录制测试可以看到视频被成功保存至媒体库。实验结果如下图：
-- <img src="https://github.com/17515424731/Android/blob/main/image/n13.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.2.9.png" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Android/blob/main/image/n10.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/2.2.10.png" alt="avatar" style="zoom:50%; width:750px" />
