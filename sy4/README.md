@@ -1,36 +1,22 @@
-# Jupyter Notebook基础教程
+# 基于TensorFlow Lite实现的Android花卉识别应用
 
-### 1. Jupyter Notebook简介
+### 1. 下载初始代码
 
-（1） Anaconda是安装Jupyter Notebook的最佳方式。安装完成之后，启动Anaconda的Navigator，并启动Notebook，呈现如下界面：
+（1） 创建工作目录，使用
 
-- <img src="https://github.com/17515424731/Project/blob/main/image/3-1.png" alt="avatar" style="zoom:50%; width:750px" />
-
-观察页面，可以看到浏览器中显示类似 https://localhost:8888/tree. 的网址，代表本地运行着Notebook的服务器。
-
-### 2. 创建一个新的Notebook
-
-（1） 新建一个Notebook Python 3 (ipykernel)，生成了一个未命名2.ipynb文件。.ipynb文件即所谓的一个Notebook，实际是基于JSON格式的文本文件，并且包含元数据(“Edit > Edit Notebook Metadata”)。新建的Notebook的界面大致如下：
-
-- <img src="https://github.com/17515424731/Project/blob/main/image/3-2.png" alt="avatar" style="zoom:50%; width:750px" />
-
-这里有两个关键元素cell和kernal
-cell: 文本或者代码执行单元，由kernel执行。
-kernel: 计算引擎，执行cell的文本或者代码，本文基于Python 3 ipykernel引擎。
-
-（2）试着输入一行代码，查看执行效果：
-```python
-print('Hello World!')
+```
+git clone https://github.com/hoitab/TFLClassify.git
 ```
 
-    Hello World!
+拷贝代码；或者直接访问github链接下载代码的ZIP包，并解压缩到工作目录。
 
-代码执行之后，cell左侧的标签从In [ ] 变成了 In [1]。In代表输入，[]中的数字代表kernel执行的顺序，而In [*]则表示代码cell正在执行代码。以下例子显示了短暂的In [*]过程。
+### 2. 运行初始代码
 
-```python
-import time
-time.sleep(3)
-```
+（1）打开Android Studio，选择“Open an Existing Project”
+
+（2）选择TFLClassify/build.gradle生成整个项目。项目包含两个module：finish 和 start，finish模块是已经完成的项目，start则是本项目实践的模块。
+
+（
 ### cell模式
 
 有两种模式，编辑模式（edit mode）和命名模式（command mode）
