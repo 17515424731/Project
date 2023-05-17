@@ -26,7 +26,7 @@ git clone https://github.com/hoitab/TFLClassify.git
 
 （6）允许应用获取手机摄像头的权限，得到下述效果图，界面利用随机数表示虚拟的识别结果。
 
-- <img src="https://github.com/17515424731/Project/blob/main/image/4.7.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/4.7.jpg" alt="avatar" style="zoom:50%; width:750px" />
 ### 3.向应用中添加TensorFlow Lite
 
 （1）选择"start"模块
@@ -128,12 +128,12 @@ for (i in 0..MAX_RESULT_DISPLAY-1){
 
 （7）最终运行效果
 
-- <img src="https://github.com/17515424731/Project/blob/main/image/4.8.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/4.8.jpg" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Project/blob/main/image/4.9.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/4.9.jpg" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Project/blob/main/image/4.10.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/4.10.jpg" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Project/blob/main/image/4.11.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/4.11.jpg" alt="avatar" style="zoom:50%; width:750px" />
 
-- <img src="https://github.com/17515424731/Project/blob/main/image/4.12.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/4.12.jpg" alt="avatar" style="zoom:50%; width:750px" />
