@@ -49,7 +49,12 @@ print(scissors_files[:10])
 ```
 
 ```
-
+total training rock images: 840
+total training paper images: 840
+total training scissors images: 840
+['rock04-047.png', 'rock07-k03-036.png', 'rock04-070.png', 'rock07-k03-000.png', 'rock02-116.png', 'rock04-107.png', 'rock03-060.png', 'rock03-058.png', 'rock05ck01-069.png', 'rock03-004.png']
+['paper02-048.png', 'paper06-055.png', 'paper07-116.png', 'paper06-119.png', 'paper05-043.png', 'paper06-017.png', 'paper05-046.png', 'paper04-006.png', 'paper02-037.png', 'paper01-083.png']
+['scissors03-008.png', 'testscissors01-113.png', 'scissors02-117.png', 'scissors03-061.png', 'testscissors03-045.png', 'scissors03-058.png', 'scissors02-074.png', 'testscissors02-008.png', 'scissors01-011.png', 'scissors04-031.png']
 ```
 
 ### 4.各打印两张石头剪刀布训练集图片
@@ -77,7 +82,17 @@ for i, img_path in enumerate(next_rock+next_paper+next_scissors):
   plt.show()
 ```
 
-- <img src="https://github.com/17515424731/Project/blob/main/image/output_15_0.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/5.1.png" alt="avatar" style="zoom:50%; width:750px" />
+
+- <img src="https://github.com/17515424731/Project/blob/main/image/5.2.png" alt="avatar" style="zoom:50%; width:750px" />
+
+- <img src="https://github.com/17515424731/Project/blob/main/image/5.3.png" alt="avatar" style="zoom:50%; width:750px" />
+
+- <img src="https://github.com/17515424731/Project/blob/main/image/5.4.png" alt="avatar" style="zoom:50%; width:750px" />
+
+- <img src="https://github.com/17515424731/Project/blob/main/image/5.5.png" alt="avatar" style="zoom:50%; width:750px" />
+
+- <img src="https://github.com/17515424731/Project/blob/main/image/5.6.png" alt="avatar" style="zoom:50%; width:750px" />
 
 ### 5.调用TensorFlow的keras进行数据模型的训练和评估
 
@@ -149,7 +164,79 @@ model.save("rps.h5")
 ```
 
 ```
-
+2023-05-31 12:56:41.329291: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2023-05-31 12:56:41.329319: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+Output exceeds the size limit. Open the full output data in a text editorFound 2520 images belonging to 3 classes.
+Found 372 images belonging to 3 classes.
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ conv2d (Conv2D)             (None, 148, 148, 64)      1792      
+                                                                 
+ max_pooling2d (MaxPooling2D  (None, 74, 74, 64)       0         
+ )                                                               
+                                                                 
+ conv2d_1 (Conv2D)           (None, 72, 72, 64)        36928     
+                                                                 
+ max_pooling2d_1 (MaxPooling  (None, 36, 36, 64)       0         
+ 2D)                                                             
+                                                                 
+ conv2d_2 (Conv2D)           (None, 34, 34, 128)       73856     
+                                                                 
+ max_pooling2d_2 (MaxPooling  (None, 17, 17, 128)      0         
+ 2D)                                                             
+                                                                 
+ conv2d_3 (Conv2D)           (None, 15, 15, 128)       147584    
+                                                                 
+ max_pooling2d_3 (MaxPooling  (None, 7, 7, 128)        0         
+ 2D)                                                             
+...
+Total params: 3,473,475
+Trainable params: 3,473,475
+Non-trainable params: 0
+_________________________________________________________________
+2023-05-31 12:56:47.750638: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory
+2023-05-31 12:56:47.750665: W tensorflow/stream_executor/cuda/cuda_driver.cc:269] failed call to cuInit: UNKNOWN ERROR (303)
+2023-05-31 12:56:47.750684: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (codespaces-cf2868): /proc/driver/nvidia/version does not exist
+2023-05-31 12:56:47.750880: I tensorflow/core/platform/cpu_feature_guard.cc:151] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Epoch 1/25
+2023-05-31 12:56:48.653237: W tensorflow/core/framework/cpu_allocator_impl.cc:82] Allocation of 34020000 exceeds 10% of free system memory.
+2023-05-31 12:56:50.185544: W tensorflow/core/framework/cpu_allocator_impl.cc:82] Allocation of 34020000 exceeds 10% of free system memory.
+2023-05-31 12:56:50.210222: W tensorflow/core/framework/cpu_allocator_impl.cc:82] Allocation of 706535424 exceeds 10% of free system memory.
+2023-05-31 12:56:50.735226: W tensorflow/core/framework/cpu_allocator_impl.cc:82] Allocation of 176633856 exceeds 10% of free system memory.
+2023-05-31 12:56:50.847363: W tensorflow/core/framework/cpu_allocator_impl.cc:82] Allocation of 167215104 exceeds 10% of free system memory.
+Output exceeds the size limit. Open the full output data in a text editor20/20 [==============================] - 75s 4s/step - loss: 1.3312 - accuracy: 0.3222 - val_loss: 1.0870 - val_accuracy: 0.3522
+Epoch 2/25
+20/20 [==============================] - 69s 3s/step - loss: 1.1117 - accuracy: 0.3929 - val_loss: 1.0378 - val_accuracy: 0.6425
+Epoch 3/25
+20/20 [==============================] - 67s 3s/step - loss: 1.1450 - accuracy: 0.4123 - val_loss: 0.9401 - val_accuracy: 0.7473
+Epoch 4/25
+20/20 [==============================] - 68s 3s/step - loss: 1.0453 - accuracy: 0.5194 - val_loss: 0.8923 - val_accuracy: 0.6505
+Epoch 5/25
+20/20 [==============================] - 68s 3s/step - loss: 0.9599 - accuracy: 0.5849 - val_loss: 0.6953 - val_accuracy: 0.6263
+Epoch 6/25
+20/20 [==============================] - 68s 3s/step - loss: 0.7463 - accuracy: 0.6718 - val_loss: 0.3294 - val_accuracy: 0.9570
+Epoch 7/25
+20/20 [==============================] - 67s 3s/step - loss: 0.7546 - accuracy: 0.6889 - val_loss: 0.4073 - val_accuracy: 0.9220
+Epoch 8/25
+20/20 [==============================] - 67s 3s/step - loss: 0.5952 - accuracy: 0.7333 - val_loss: 0.2808 - val_accuracy: 0.9731
+Epoch 9/25
+20/20 [==============================] - 67s 3s/step - loss: 0.5142 - accuracy: 0.7921 - val_loss: 0.1274 - val_accuracy: 1.0000
+Epoch 10/25
+20/20 [==============================] - 67s 3s/step - loss: 0.3736 - accuracy: 0.8591 - val_loss: 0.3841 - val_accuracy: 0.7957
+Epoch 11/25
+20/20 [==============================] - 65s 3s/step - loss: 0.4596 - accuracy: 0.8397 - val_loss: 0.0865 - val_accuracy: 1.0000
+Epoch 12/25
+20/20 [==============================] - 66s 3s/step - loss: 0.2612 - accuracy: 0.9052 - val_loss: 0.9962 - val_accuracy: 0.6425
+Epoch 13/25
+20/20 [==============================] - 65s 3s/step - loss: 0.2974 - accuracy: 0.8869 - val_loss: 0.3827 - val_accuracy: 0.8038
+...
+Epoch 24/25
+20/20 [==============================] - 65s 3s/step - loss: 0.0872 - accuracy: 0.9718 - val_loss: 0.0338 - val_accuracy: 1.0000
+Epoch 25/25
+20/20 [==============================] - 65s 3s/step - loss: 0.1322 - accuracy: 0.9504 - val_loss: 0.0281 - val_accuracy: 1.0000
 ```
 
 ImageDataGenerator是Keras中图像预处理的类，经过预处理使得后续的训练更加准确。
@@ -178,6 +265,8 @@ plt.legend(loc=0)
 plt.figure()
 plt.show()
 ```
-- <img src="https://github.com/17515424731/Project/blob/main/image/output_15_0.png" alt="avatar" style="zoom:50%; width:750px" />
+- <img src="https://github.com/17515424731/Project/blob/main/image/5.7.png" alt="avatar" style="zoom:50%; width:750px" />
+
+<Figure size 640x480 with 0 Axes>
 
 利用生成了模型，我们可以运行实际中的例子，例如上传石头剪头布的图片进行推测，使用model.predict。
